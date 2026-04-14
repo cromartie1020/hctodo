@@ -10,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY= config('SECRET_KEY')   
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =  False
+DEBUG =  True
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -122,3 +123,5 @@ LOGOUT_REDIRECT_URL = 'todo_list'  # Redirect to home after logout
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'  # Using bootstrap version 4
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  
+
+
