@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Profile - Todo Application{% endblock title %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock extra_styles %}
+
+{% block main_content %}
+  <main
+    <h2>User Profile</h2>
+    <div class="profile-detail">
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add more user details here -->
+    </div>
+   </main>
+{% endblock  %}
+
+{% block content %}
+    <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}    
+        <!-- Add more user details here -->
+            </ul>
+        {% endif %}
+        <h2>Edit Profile</h2>
+        <form method="post" action="{% url 'profile' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update Profile</button>
+        </form>
+    </main>
+{% endblock content %}
+                     
