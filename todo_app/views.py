@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404 
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TodoItemForm, UserCreationForm, AuthenticationForm, PasswordChangeForm
 from .models import TodoItem
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,7 @@ def todo_list(request):
     if request.method == 'POST':
             todos = TodoItem.objects.filter(user=request.user)
             form = TodoItemForm(request.POST)
-            if form.is_valid(): 
+            if form.is_valid():
                 todo = form.save(commit=False)
                 todo.user = request.user
                 todo.save()
@@ -23,12 +23,12 @@ def todo_list(request):
     else:
         form = TodoItemForm()
     todos = TodoItem.objects.filter(user=request.user)
-    return render(request, 'todo_app/todo_list.html', {'todos': todos, 'form': form})        
-    
+    return render(request, 'todo_app/todo_list.html', {'todos': todos, 'form': form})
+
 def todo_detail(request, id):
     todo = get_object_or_404(TodoItem, id=id)  # Assuming you have a way to retrieve the todo item by ID
     # Logic to retrieve the todo item by ID and render the detail view
-    return render(request, 'todo_app/todo_detail.html', {'todo': todo })   
+    return render(request, 'todo_app/todo_detail.html', {'todo': todo })
 
 def signup(request):
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def signup(request):
             return redirect('todo_list')
     else:
         form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})     
+    return render(request, 'registration/signup.html', {'form': form})
 
 def profile(request):
     if request.method == 'POST':
@@ -50,10 +50,10 @@ def profile(request):
             return redirect('todo_list')
     else:
         form = PasswordChangeForm(user=request.user)
-    return render(request, 'registration/profile.html', {'form': form}) 
+    return render(request, 'registration/profile.html', {'form': form})
 
 def show_profile(request):
-    return render(request, 'registration/profile.html', {'user': request.user})  # Render the profile page  
+    return render(request, 'registration/profile.html', {'user': request.user})  # Render the profile page
 
 
 def login_view(request):
@@ -100,13 +100,18 @@ def create_todo(request):
     return render(request, 'todo_app/create_todo.html', {'form': form})  # Render the create form
 
 def complete_todo(request):
+
     if request.method == 'POST':
         todo_id = request.POST.get('todo_id')
         todo = get_object_or_404(TodoItem, id=todo_id, user=request.user)
         todo.completed = True  # Assuming you have a 'completed' field in your TodoItem model
         todo.save()
         return redirect('todo_list')
-    return render(request, 'todo_app/complete_todo.html')  # Render a confirmation page or redirect to home     
+    todos=TodoItem.objects.filter(user=request.user)
+    context = {
+        'todos':todos
+    }
+    return render(request, 'todo_app/complete_todo.html', context)  # Render a confirmation page or redirect to home
 
 def incomplete_todo(request):
     if request.method == 'POST':
@@ -115,4 +120,4 @@ def incomplete_todo(request):
         todo.completed = False  # Assuming you have a 'completed' field in your TodoItem model
         todo.save()
         return redirect('todo_list')
-    return render(request, 'todo_app/incomplete_todo.html')  # Render a confirmation page or redirect to home   
+    return render(request, 'todo_app/incomplete_todo.html')  # Render a confirmation page or redirect to home
