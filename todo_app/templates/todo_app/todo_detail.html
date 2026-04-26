@@ -8,13 +8,25 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 {% endblock extra_styles %}
 
-{% block main_content %}
+{% block content %}
+  <main>
     <h2>Todo Detail</h2>
     <div class="todo-detail">
-        <p>Todo ID: {{ todo_id }}</p>
+
+        <p>Todo ID: {{ todo.id }}</p>
+        <p>Title: {{ todo.title }}</p>
+        <p>Description: {{ todo.description }}</p>
+        <p>Completed: {{ todo.completed }}</p>
+
         <!-- Add more details about the todo item here -->
+        <p>
+            <a href="{% url 'todo_list' %}">
+                Home
+            </a>
+        </p>
+
     </div>
-{% endblock main_content %}
+  </main>
+{% endblock  %}
 
 
-    
